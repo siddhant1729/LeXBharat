@@ -1,0 +1,16 @@
+# Core API
+fastapi
+uvicorn
+
+# LangChain core
+langchain
+langchain-community
+
+# PDF loading
+pypdf
+
+# Vector DB (for later)
+faiss-cpu
+
+# Utilities
+python-dotenv
