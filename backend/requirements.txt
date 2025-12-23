@@ -5,6 +5,7 @@ uvicorn
 # LangChain core
 langchain
 langchain-community
+langchain_text_splitters
 
 # PDF loading
 pypdf
