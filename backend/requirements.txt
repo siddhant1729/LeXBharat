@@ -18,3 +18,5 @@ python-dotenv
 
 #env source
 dotenv
+sentence_transformers
+langchain_huggingface
