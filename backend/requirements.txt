@@ -1,0 +1,26 @@
+# Core API
+fastapi
+uvicorn
+
+# LangChain core
+langchain
+langchain-community
+langchain_text_splitters
+langchain_ollama
+
+# PDF loading
+pypdf
+
+# Vector DB (for later)
+faiss-cpu
+
+# Utilities
+python-dotenv
+
+#env source
+dotenv
+sentence_transformers
+langchain_huggingface
+venv/
+__pycache__/
+.env
