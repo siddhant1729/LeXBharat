@@ -1,94 +1,130 @@
-LexBharat — Document-Grounded Legal Research Assistant
+<div align="center">
 
-LexBharat is a Retrieval-Augmented Generation (RAG) system designed to answer legal questions strictly based on uploaded documents.
-Instead of relying on a model’s general knowledge, LexBharat retrieves relevant sections from legal texts and generates answers grounded in those sources.
+<br/>
 
-The goal is to explore how LLMs, embeddings, and vector databases can be combined to build reliable systems that minimize hallucinations and provide traceable, document-based responses.
+```
+██╗     ███████╗██╗  ██╗██████╗ ██╗  ██╗ █████╗ ██████╗  █████╗ ████████╗
+██║     ██╔════╝╚██╗██╔╝██╔══██╗██║  ██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝
+██║     █████╗   ╚███╔╝ ██████╔╝███████║███████║██████╔╝███████║   ██║   
+██║     ██╔══╝   ██╔██╗ ██╔══██╗██╔══██║██╔══██║██╔══██╗██╔══██║   ██║   
+███████╗███████╗██╔╝ ██╗██████╔╝██║  ██║██║  ██║██║  ██║██║  ██║   ██║   
+╚══════╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+```
 
-Why LexBharat?
+### Document-Grounded Legal Research Assistant
 
-Large Language Models are powerful, but they often hallucinate when asked about specific documents.
+*Ask questions. Get answers. Traced back to the source.*
 
-LexBharat addresses this by implementing a document-grounded question answering pipeline:
+<br/>
 
-Convert legal documents into semantic chunks
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![LangChain](https://img.shields.io/badge/LangChain-0.1+-1C3C3C?style=flat-square&logo=chainlink&logoColor=white)](https://langchain.com)
+[![FAISS](https://img.shields.io/badge/FAISS-Vector_DB-00599C?style=flat-square)](https://faiss.ai)
+[![Ollama](https://img.shields.io/badge/Ollama-Local_LLM-black?style=flat-square)](https://ollama.ai)
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Embeddings-FFD21E?style=flat-square&logo=huggingface&logoColor=black)](https://huggingface.co)
 
-Store embeddings in a vector database
+</div>
 
-Retrieve the most relevant sections for a user query
+---
 
-Generate answers using only the retrieved context
+## 📌 What is LexBharat?
 
-This ensures that responses are anchored in the document itself.
+LexBharat is a **Retrieval-Augmented Generation (RAG)** system built to answer legal questions — strictly from documents you provide.
 
-System Architecture
-PDF Document
+No hallucinations. No general knowledge drift. Every answer is **traceable back to a source passage**.
+
+> Built to explore how LLMs, embeddings, and vector databases can be combined to create reliable, document-grounded AI systems.
+
+---
+
+## 🧠 The Problem
+
+Large Language Models are powerful — but they hallucinate when asked about specific documents. They blend training data with your input, producing confident but ungrounded answers.
+
+**LexBharat addresses this directly:**
+
+| Without RAG | With LexBharat |
+|---|---|
+| LLM answers from general training | LLM answers only from your document |
+| Hard to trace where the answer came from | Every answer is grounded in retrieved passages |
+| Hallucinations are common | Out-of-scope queries are rejected |
+
+---
+
+## ⚙️ System Architecture
+
+```
+📄 PDF Document
       │
       ▼
-Document Loader (PyPDF)
+ Document Loader (PyPDF)
       │
       ▼
-Text Chunking
+ Text Chunking
+  [500–1000 token segments]
       │
       ▼
-Embedding Generation (HuggingFace)
+ Embedding Generation
+  [HuggingFace Sentence Transformers]
       │
       ▼
-Vector Storage (FAISS)
+ Vector Storage (FAISS)
       │
       ▼
-Query Retrieval
+ Query → Semantic Retrieval
+  [Top-3 relevant passages]
       │
       ▼
-LLM Answer Generation (Ollama / LLaMA)
+ LLM Answer Generation
+  [Ollama / LLaMA — context-only mode]
+      │
+      ▼
+ ✅ Grounded Answer + Source Reference
+```
 
-The LLM is not allowed to answer without context, reducing hallucination risk.
+> **Key constraint:** The LLM is not permitted to answer without retrieved context — hallucination risk is structurally reduced.
 
-Key Features
+---
 
-Document Grounded Answers
+## ✨ Key Features
 
-Responses are generated using retrieved chunks from the uploaded document.
+**📎 Document-Grounded Answers**  
+Responses are generated exclusively from retrieved chunks of your uploaded document.
 
-Semantic Search
+**🔍 Semantic Search via FAISS**  
+Similarity search across embedded document chunks finds relevant passages even when phrasing differs.
 
-FAISS enables similarity search across embedded document chunks.
+**🧩 Modular Architecture**  
+Each component is cleanly isolated — swap out any layer independently:
 
-Modular Architecture
+```
+Document Loading → Chunking → Embeddings → Vector Store → Retrieval → LLM
+```
 
-Each component is isolated for experimentation:
+**🖥️ Local LLM Support**  
+Runs entirely offline via Ollama. No external API keys. No data leaves your machine.
 
-Document Loading
+**🚫 Strict Out-of-Scope Handling**  
+When no relevant context is found, LexBharat refuses to answer rather than guessing.
 
-Chunking
+---
 
-Embeddings
+## 🛠️ Tech Stack
 
-Vector Storage
+| Layer | Technology |
+|---|---|
+| Language | Python 3.10+ |
+| RAG Framework | LangChain |
+| Embeddings | HuggingFace Sentence Transformers |
+| Vector Database | FAISS |
+| LLM Runtime | Ollama (LLaMA models) |
+| PDF Parsing | PyPDF |
 
-Retrieval
+---
 
-LLM Generation
+## 📁 Project Structure
 
-Local LLM Support
-
-The system uses Ollama to run models locally, avoiding external API dependencies.
-
-Tech Stack
-
-Python
-
-LangChain
-
-HuggingFace Embeddings
-
-FAISS Vector Database
-
-Ollama (LLaMA models)
-
-PyPDF for document parsing
-
-Project Structure
+```
 backend/
 │
 ├── app/
@@ -105,87 +141,93 @@ backend/
 │   └── raw/                  # Source documents
 │
 └── requirements.txt
-Example Workflow
+```
 
-Add a legal document to data/raw/
+---
 
-Run the pipeline
+## 🚀 Getting Started
 
-Ask questions related to the document
-
-Example:
-
-Enter your question:
-What was the main issue in the case?
-
-Output:
-
-Answer:
-The main issue discussed in the document concerns the interpretation of personal liberty under Article 21 of the Constitution.
-
-Source:
-Relevant passages retrieved from the document.
-Running the Project
-1. Clone the repository
+### 1. Clone the repository
+```bash
 git clone https://github.com/siddhant1729/LeXBharat.git
 cd LeXBharat
-2. Create virtual environment
+```
+
+### 2. Create and activate a virtual environment
+```bash
 python -m venv venv
 
-Activate:
-
-Windows
-
+# Windows
 venv\Scripts\activate
 
-Linux / macOS
-
+# Linux / macOS
 source venv/bin/activate
-3. Install dependencies
+```
+
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
-4. Run the pipeline
+```
 
-From the backend directory:
-
+### 4. Run the pipeline
+```bash
+# From the backend directory
 python -m app.main
-Learning Goals
+```
 
-LexBharat was built as an exploration into:
+---
 
-How vector databases enable semantic search
+## 💬 Example Workflow
 
-How RAG reduces hallucinations
+1. Drop a legal document into `data/raw/`
+2. Run the pipeline
+3. Ask a question about it
 
-How LLMs can be constrained using retrieved context
+```
+Enter your question: What was the main issue in the case?
 
-Designing modular AI systems instead of simple wrappers
+Answer:
+The main issue discussed in the document concerns the interpretation
+of personal liberty under Article 21 of the Constitution.
 
-Future Directions
+Source:
+Relevant passages retrieved from pages 3–4 of the document.
+```
 
-Potential extensions include:
+---
 
-Citation-aware answers with page references
+## 🎯 Learning Goals
 
-Multi-document retrieval across legal cases
+LexBharat was built as a hands-on exploration of:
 
-Confidence scoring for out-of-scope queries
+- How vector databases enable semantic search over large documents
+- How RAG structurally reduces LLM hallucinations
+- How to constrain LLM generation using retrieved context
+- Designing modular, composable AI pipelines
 
-LangGraph-based reasoning pipelines
+---
 
-Author
+## 🔭 Future Directions
 
-Siddhant Shaurya
+- [ ] Citation-aware answers with page number references  
+- [ ] Multi-document retrieval across related legal cases  
+- [ ] Confidence scoring for out-of-scope query detection  
+- [ ] LangGraph-based multi-step reasoning pipelines  
+- [ ] Web interface for document upload and Q&A  
+
+---
+
+## 👤 Author
+
+**Siddhant Shaurya**  
 Computer Science Undergraduate — JIIT Noida
 
-Interested in:
+Interested in AI Systems · Machine Learning · Backend Engineering · Intelligent Developer Tools
 
-AI Systems
+[![GitHub](https://img.shields.io/badge/GitHub-siddhant1729-181717?style=flat-square&logo=github)](https://github.com/siddhant1729)
 
-Machine Learning
+---
 
-Backend Engineering
-
-Intelligent developer tools
-
-GitHub:
-https://github.com/siddhant1729
+<div align="center">
+<sub>Built with curiosity. Grounded in documents.</sub>
+</div>
